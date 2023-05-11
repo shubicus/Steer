@@ -1,0 +1,25 @@
+image: markhobson/maven-chrome:jdk-11
+
+stages:
+  - test
+  - report
+
+cache:
+  paths:
+    - .m2/repository/
+    - target/
+
+test:
+  stage: test
+  allow_failure: true
+  script:
+    - mvn clean test
+
+report:
+  stage: report
+  script:
+    - mvn io.qameta.allure:allure-maven:report
+  artifacts:
+    when: always
+    paths:
+      - /builds/Shubicus/steer/target/site/allure-maven-plugin
